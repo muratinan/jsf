@@ -1,0 +1,2 @@
+eclipse.preferences.version=1
+org.jboss.ide.eclipse.as.core.singledeployable.deployableList=resources/jbossOrnek-ds.xml\nsrc\nresources/ojdbc14.jar-10.2.jar\nresources/ojdbc14.jar-10.2.jar\nresources/mysql-connector-java-5.1.21-bin.jar\nresources/mysql-connector-java-5.1.21-bin.jar\nresources/jbossOrnek-ds.xml\n

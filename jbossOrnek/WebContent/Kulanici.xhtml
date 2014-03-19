@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<style type="text/css">
+.ui-widget,.ui-widget .ui-widget {
+	font-size: 12px !important;
+}
+</style>
+	<script type="text/javascript">
+function showDialog() {
+	modalDialog.Show();
+}
+</script>
+
+</h:head>
+<body>
+	<p:panel header="Kullanıcı Kayıt Sayfası">
+
+		<p:messages autoUpdate="true" />
+
+		<h:form id="kayitForm">
+			<h:panelGrid columns="2">
+				Ad : <p:inputText value="#{kullaniciBean.kullanici.ad}"
+					required="true" />			
+				Soyad : <p:inputText value="#{kullaniciBean.kullanici.soyad}"
+					required="true" />
+				Telefon Numarası: <p:inputMask mask="(999) 999-9999"
+					value="#{kullaniciBean.kullanici.telNo}" required="true" />
+				<p:messages showDetail="true" />
+				<p:captcha label="Captcha" required="true" />
+				<p:commandButton value="Kaydet" ajax="false"
+					actionListener="#{kullaniciBean.captchaKontrol()}" />
+			</h:panelGrid>
+		</h:form>
+		
+		<h:form id="listeForm">
+			<p:dataTable value="#{kullaniciBean.kullaniciListesi}"
+				var="kullanici">
+				<p:column>
+					<f:facet name="header">Seç</f:facet>
+					<p:commandButton value="Seç" onclick="guncelleDialog.show()" >
+						<f:setPropertyActionListener target="#{kullaniciBean.kullanici}"
+							value="#{kullanici}" />
+					</p:commandButton>
+					
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">Sil</f:facet>
+					<p:commandButton value="Sil" onclick="deleteDialog.show()">
+						<f:setPropertyActionListener target="#{kullaniciBean.kullanici}"
+							value="#{kullanici}" />
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="Ad">
+					#{kullanici.ad}
+				</p:column>
+
+				<p:column headerText="Soyad">
+					#{kullanici.soyad}
+				</p:column>
+
+				<p:column headerText="Telefon Numarası">
+					#{kullanici.telNo}
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</p:panel>
+
+	<!--*********** BEGIN SİL Dialog Box ***********-->
+	<h:form>
+		<p:confirmDialog
+			message="Bu Kullanıcıyı Gerçekten Silmek İstiyor Musunuz?"
+			header="Kullanıcı Sil" severity="alert" widgetVar="deleteDialog">
+			<p:commandButton id="confirm" value="Evet" action="#{kullaniciBean.sil()}"
+				update="@form, @(.ui-panel)" oncomplete="deleteDialog.hide()" />
+			<p:commandButton id="decline" value="Hayır"
+				onclick="deleteDialog.hide()" type="button" update="@form :listeForm" />
+		</p:confirmDialog>
+	</h:form>
+	<!--*********** END SİL Dialog Box ***********-->
+	
+	
+	<!--*********** BEGIN Güncelle Dialog Box ***********-->
+	<h:form>
+		<p:dialog widgetVar="guncelleDialog" id="modalDialog" header="Güncelle">  
+			<h:panelGrid columns="2">
+				 Ad : <h:inputText value="#{kullanici.ad}" />
+    			 Soyad : <h:inputText value="#{kullanici.soyad}" />
+    			 Telefon Numarası : <h:inputText value="#{kullanici.telNo}" />
+				<p:commandButton value="Güncelle" action="#{kullaniciBean.guncelle()}" update="@form :listeForm" onclick="guncelleDialog.hide()" />
+			</h:panelGrid>
+    				        
+		</p:dialog>
+	</h:form>
+
+	<!--*********** END Güncelle Dialog Box ***********-->
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
